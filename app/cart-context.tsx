@@ -12,19 +12,19 @@ export type CartItem = {
 type CartContextValue = {
   items: CartItem[];
   totalQuantity: number;
-  addToCart: (product: Product, quantity?: number) =&gt; void;
+  addToCart: (product: Product, quantity?: number) => void;
 };
 
-const CartContext = createContext&lt;CartContextValue | undefined&gt;(undefined);
+const CartContext = createContext<CartContextValue | undefined>(undefined);
 
 export function CartProvider({ children }: { children: ReactNode }) {
-  const [items, setItems] = useState&lt;CartItem[]&gt;([]);
+  const [items, setItems] = useState<CartItem[]>([]);
 
-  const addToCart = (product: Product, quantity = 1) =&gt; {
-    setItems((prev) =&gt; {
-      const existing = prev.find((item) =&gt; item.product.slug === product.slug);
+  const addToCart = (product: Product, quantity = 1) => {
+    setItems((prev) => {
+      const existing = prev.find((item) => item.product.slug === product.slug);
       if (existing) {
-        return prev.map((item) =&gt;
+        return prev.map((item) =>
           item.product.slug === product.slug
             ? { ...item, quantity: item.quantity + quantity }
             : item
@@ -35,12 +35,12 @@ export function CartProvider({ children }: { children: ReactNode }) {
   };
 
   const totalQuantity = useMemo(
-    () =&gt; items.reduce((sum, item) =&gt; sum + item.quantity, 0),
+    () => items.reduce((sum, item) => sum + item.quantity, 0),
     [items]
   );
 
   const value = useMemo(
-    () =&gt; ({
+    () => ({
       items,
       totalQuantity,
       addToCart
@@ -48,7 +48,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     [items, totalQuantity]
   );
 
-  return &lt;CartContext.Provider value={value}&gt;{children}&lt;/CartContext.Provider&gt;;
+  return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }
 
 export function useCart() {
